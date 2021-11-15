@@ -1,16 +1,13 @@
 
-<h3 align="center">React Carplay</h3>
+<h3 align="center">Node Carplay</h3>
 
   <p align="center">
     Node Carplay npm package
 </p>
 
-
-Removed:
- "node-carplay": "~1.0.14",
     
-Test ffplay
-cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_audio.bin | ffplay -hide_banner -loglevel error pipe:0 -f s16le -ac 2 -ar 44100
+
+
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">
@@ -47,8 +44,9 @@ cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_audio.bin | ffplay -h
 
 [example video](https://youtu.be/mBeYd7RNw1w)
 
-This is a small react app wrapped in electron. It loads an electron app that awaits the carlinkit adapter to be plugged into an iphone.
-On detecting the phone its sends the h264 stream to a websocket, that then gets sent to a jsmpeg player instance.
+This is a carplay module for nodejs. It is currently in development, but is at a useable stage. Currently it interacts with a Carlinkit adapter, it opens communication with it, sends various
+configuration settings and also downloads the APK file thats usually used with it. The APK file then gets extracted and its contents get sent over usb to the
+dongle itself. The dongle then sends a h264 bytestream from the phone, this contains the video data. And it also sends an audio stream. 
 
 ### Built With
 
@@ -67,21 +65,21 @@ This project would not of been possible without electric monks work on a python 
 
 ### Prerequisites
 
-You need to have a calinkit adapter [link](https://amzn.to/3jwLT46) 
-
-The target machine should have FFMPEG/FFPLAY installed and working.
+The target machine should have FFMPEG/FFPLAY installed and working 
 
 ### Installation
 
-Download correct package from [releases](https://github.com/rhysmorgan134/react-carplay/releases)
+```javascript
+npm install node-carplay
+```
 
 
 
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-* ```chmod +x {AppImage}```
-* ```sudo ./{AppImage} --no-sandbox```
+TODO see [react-carplay](https://github.com/rhysmorgan134/react-carplay)
+
 
 
 <!-- ROADMAP -->
