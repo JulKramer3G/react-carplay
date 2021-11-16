@@ -12,6 +12,15 @@ Removed:
 Test ffplay
 cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_audio.bin | ffplay -hide_banner -loglevel error pipe:0 -f s16le -ac 2 -ar 44100
 
+// Test sox
+cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_audio.bin | play -t s16 -c 2 -r 44100 -
+cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_audio.bin | play -t raw -b 16 -c 2 -r 44100  -
+
+//Video
+cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_video.bin | ffmpeg -hide_banner -loglevel error -threads 2 -i - -c:v h264_v4l2m2m -tune zerolatency -pix_fmt yuv420p -f mpegts -codec:v mpeg1video -s 1440x875 -b:v 2000k -bf 0 http://localhost:8081/supersecret
+
+cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_video.bin | ffplay -hide_banner -loglevel error -threads 2 -i - -tune zerolatency -pix_fmt yuv420p -f mpegts -codec:v mpeg1video -s 1440x875 -b:v 2000k -bf 0 http://localhost:8081/supersecret
+
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary>Table of Contents</summary>
@@ -70,6 +79,7 @@ This project would not of been possible without electric monks work on a python 
 You need to have a calinkit adapter [link](https://amzn.to/3jwLT46) 
 
 The target machine should have FFMPEG/FFPLAY installed and working.
+The target machine should have SOX installed and working.
 
 ### Installation
 

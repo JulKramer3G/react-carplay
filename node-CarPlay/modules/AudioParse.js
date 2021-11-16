@@ -3,22 +3,30 @@ const spawn = require('child_process').spawn;
 const { Readable } = require('stream');
 const fs = require('fs');
 
-var record = false;
+var record_audio = false;
 
 class AudioParse extends EventEmitter {
     constructor(updateState) {
         super();
-        if (record == true) {
+        if (record_audio == true) {
             this.wstream = fs.createWriteStream('rec_audio.bin');
         }
-        this._parser = spawn('ffplay', [
-            "-hide_banner",
-            "-loglevel", "error",
-            "pipe:",
-            "-f", "s16le",
-            "-ac", "2",
-            "-ar", `44100`,
-            // "-nodisp"
+        // this._parser = spawn('ffplay', [
+        //     // "-hide_banner",
+        //     // "-loglevel", "error",
+        //     "pipe:",
+        //     "-f", "s16le",
+        //     "-ac", "2",
+        //     "-ar", `44100`,
+        //     // "-nodisp"
+        // ])
+
+        this._parser = spawn('play', [
+            "-t", "s16",
+            "-c", "2",
+            "-r", `44100`,
+            "-",
+            "--no-show-progress"
         ])
         this._parser.stderr.on('data', ((data) => {
             console.log(data.toString())
@@ -38,21 +46,18 @@ class AudioParse extends EventEmitter {
         this._readable._read = () => {
             this._readable.pipe(this._parser.stdin)
         }
-        this._parser2 = spawn('ffplay', [
-            "-hide_banner",
-            "-loglevel", "error",
+        this._parser2 = spawn('play', [
+            "-t", "s16",
+            "-c", "1",
+            "-r", `16000`,
             "-",
-            "-f", "s16le",
-            "-ac", "1",
-            "-ar", `16000`,
-            "-nodisp"
         ])
         this._parser2.stderr.on('data', ((data) => {
             console.log(data.toString())
         }))
 
         this._parser2.stdout.on('data', ((data) => {
-            console.log(data.toString())
+            // console.log(data.toString())
         }))
 
         this._parser2.stdout.on('error', ((data) => {
@@ -123,12 +128,12 @@ class AudioParse extends EventEmitter {
         }
     }
     pipeData = () => {
-        let fullData = Buffer.concat(this._bytesRead)
-        let decodeType = fullData.readUInt32LE(0)
-        let volume = fullData.readFloatLE(4)
-        let audioType = fullData.readUInt32LE(8)
-            // console.log(decodeType, volume, audioType)
-        let outputData = fullData.slice(12, this._bytesToRead)
+        let fullData = Buffer.concat(this._bytesRead);
+        let decodeType = fullData.readUInt32LE(0);
+        let volume = fullData.readFloatLE(4);
+        let audioType = fullData.readUInt32LE(8);
+        // console.log(decodeType, volume, audioType)
+        let outputData = fullData.slice(12, this._bytesToRead);
         if (decodeType === 2) {
             // if (this._navi && (audioType === 2)) {
             //     if (this._parser.stdin.writable) {
@@ -143,22 +148,27 @@ class AudioParse extends EventEmitter {
             //         this.emit('warning', 'Audio Stream Full')
             //     }
             // }
-            if (audioType === 1) {
+            if (audioType === 1) { // 1: music, 2: navigation
                 if (this._parser.stdin.writable) {
                     // console.log("writing audio stream: ", outputData)
                     this._parser.stdin.write(outputData);
-                    if (record == true) {
-                        this.wstream.write(outputData);
-                    }
+                    // if (record_audio == true) {
+                    //     this.wstream.write(outputData);
+                    // }
                 } else {
                     this.emit('warning', 'Audio Stream Full')
                 }
             }
         } else {
+            // siri: audiotype 5
+
             if (this._parser2.stdin.writable) {
                 this._parser2.stdin.write(outputData)
             } else {
                 this.emit('warning', 'Audio Stream Full')
+            }
+            if (record_audio == true) {
+                this.wstream.write(outputData);
             }
         }
 
