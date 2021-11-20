@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CarPlay</title>
+    <!-- for ios fullscreen add to home screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <style type="text/css">
+        html,
+        body {
+            background-color: #111;
+            height: 100%;
+            overflow: hidden;
+            -webkit-overflow-scrolling: touch;
+            margin: 0;
+            text-align: center;
+            font-family: Arial;
+            display: -webkit-flexbox;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: column;
+            -webkit-flex-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .unselectable {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -o-user-select: none;
+        }
+        
+        .message {
+            color: white;
+            font-size: calc(10px + 8vmin);
+        }
+        
+        .dev_message {
+            color: white;
+            font-size: calc(10px + 1vmin);
+        }
+    </style>
+</head>
+
+<body class="unselectable" onload="init();">
+    <div id="msg-box" class="message">CONNECT IPHONE TO BEGIN CARPLAY</div>
+    <div id="dev-info" class="dev_message">DEV INFO</div>
+
+    <canvas style="position: fixed;" id="video-canvas" hidden="true" style="margin: 0; padding: 0;"></canvas>
+
+    <script type="text/javascript" src="jsmpeg.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</body>
+
+</html>

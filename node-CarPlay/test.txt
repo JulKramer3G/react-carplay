@@ -1,0 +1,10 @@
+ffmpeg -hide_banner -loglevel error -threads 2 -loop 1 -i wait_for_stream.png -c:v h264_v4l2m2m -t 10 -pix_fmt yuv420p -f mpegts -codec:v mpeg1video -s 1000x500 -b:v 2000k -bf 0 -
+
+
+mpv --hwdec=rpi --demuxer-rawvideo-fps=40 --fps=40 - --framedrop=no
+
+ffmpeg -hide_banner -loglevel error -threads 2 -loop 1 -i wait_for_stream.png -c:v h264_v4l2m2m -t 1 - -s 1000x500 -b:v 2000k -bf 0
+
+ffmpeg -hide_banner -loglevel error -threads 2 -loop 1 -i wait_for_stream.png -r 40 -c:v h264_v4l2m2m -t 10 -pix_fmt yuv420p -f mpegts -codec:v h264 -s 2880x1800 -b:v 2000k -bf 0 - > hello.txt
+cat hello.txt | mpv --hwdec=rpi --demuxer-rawvideo-fps=40 --fps=40 - --framedrop=no
+cat hello.txt | ffmpeg -hide_banner -loglevel error -threads 2 -r 40 -i - -c:v h264_v4l2m2m -tune zerolatency -pix_fmt yuv420p -f mpegts -codec:v mpeg1video -s 2880x1800 -b:v 2000k -bf 0 http://localhost:8081/supersecret

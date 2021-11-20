@@ -16,10 +16,16 @@ cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_audio.bin | ffplay -h
 cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_audio.bin | play -t s16 -c 2 -r 44100 -
 cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_audio.bin | play -t raw -b 16 -c 2 -r 44100  -
 
+cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_audio.bin | play -t s1 -c 1 -r 16000 - 
+
 //Video
 cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_video.bin | ffmpeg -hide_banner -loglevel error -threads 2 -i - -c:v h264_v4l2m2m -tune zerolatency -pix_fmt yuv420p -f mpegts -codec:v mpeg1video -s 1440x875 -b:v 2000k -bf 0 http://localhost:8081/supersecret
 
-cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_video.bin | ffplay -hide_banner -loglevel error -threads 2 -i - -tune zerolatency -pix_fmt yuv420p -f mpegts -codec:v mpeg1video -s 1440x875 -b:v 2000k -bf 0 http://localhost:8081/supersecret
+cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_video.bin | ffplay -hide_banner -loglevel error -threads 2 -i - -tune zerolatency -pix_fmt yuv420p -f mpegts -codec:v mpeg1video -s 1440x875 -b:v 2000k -bf 0 
+
+cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_video.bin | ffplay -f rawvideo -pixel_format yuv420p -video_size 1440x875 -framerate 30 - -vcodec h264
+
+cat /Users/JuliusKramer/Documents/GitHub/react-carplay/rec_video.bin | ffplay -f h264 -framerate 30 - -vcodec h264
 
 <!-- TABLE OF CONTENTS -->
 <details open="open">

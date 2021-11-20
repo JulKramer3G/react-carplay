@@ -107,7 +107,8 @@ class App extends Component {
 
         return ( <
             div style = {
-                { height: '100%' } } >
+                { height: '100%' }
+            } >
             <
             div ref = {
                 (divElement) => {
@@ -134,7 +135,8 @@ class App extends Component {
                 }
             }
             style = {
-                { height: '100%', width: '100%', padding: 0, margin: 0, display: 'flex' } } > {
+                { height: '100%', width: '100%', padding: 0, margin: 0, display: 'flex' }
+            } > {
                 this.state.status ?
                 <
                 JsmpegPlayer
@@ -145,10 +147,11 @@ class App extends Component {
                         autoplay: true
                     }
                 } >
-                < /JsmpegPlayer> : <div style={{marginTop: 'auto', marginBottom: 'auto', textAlign: 'center', flexGrow: '1'}}>CONNECT IPHONE TO BEGIN CARPLAY</div >
+                <
+                /JsmpegPlayer> : <div style={{marginTop: 'auto', marginBottom: 'auto', textAlign: 'center', flexGrow: '1'}}>CONNECT IPHONE TO BEGIN CARPLAY</div >
             } <
-            /div> <
-            /div>
+            /div> < /
+            div >
         );
     }
 }

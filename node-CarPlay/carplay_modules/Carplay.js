@@ -1,7 +1,7 @@
 const usb = require('usb');
 const fs = require('fs');
 const EventEmitter = require('events');
-const {spawn, execSync} = require('child_process');
+const { spawn, execSync } = require('child_process');
 const { Readable, Transform } = require('stream');
 const DongleHandler = require('./DongleHandler')
 
@@ -16,9 +16,9 @@ class Carplay extends EventEmitter {
         this._dongle.on('status', (data) => {
             this.emit('status', data)
         })
-	this._dongle.on('quit', () => {
-	   this.emit('quit');
-	})
+        this._dongle.on('quit', () => {
+            this.emit('quit');
+        })
     }
 
     sendTouch = (type, x, y) => {

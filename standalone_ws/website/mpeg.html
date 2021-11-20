@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Live Cam</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<body>
+    <!-- Use this if you only support Safari!!
+    <div id="player">
+        <video id="video" autoplay="true" controls="controls">
+            <source src="http://ip-address-of-web-server/live/mystream.m3u8" />
+            Your browser does not support HTML5 streaming!
+        </video>
+    </div>
+-->
+    <!-- <JsmpegPlayer wrapperClassName="video-wrapper" videoUrl="ws://localhost:8082/supersecret" options={ { autoplay: true } }>
+    </JsmpegPlayer> -->
+
+    <div class="jsmpeg" data-autoplay="true" data-url="ws://localhost:8082/supersecret"></div>
+
+    <script>
+    </script>
+</body>
+
+</html>

@@ -5,7 +5,15 @@
     Node Carplay npm package
 </p>
 
-    
+ffmpeg -loop 1 -i image.png -c:v libx264 -t 15 -pix_fmt yuv420p -vf scale=320:240 out.mp4
+
+ffmpeg -loop 1 -i wait_for_stream.png -c:v h264_v4l2m2m -t 1 -pix_fmt yuv420p -f mpegts -codec:v mpeg1video -s 1000x500 -b:v 2000k -bf 0 http://localhost:8081/supersecret
+
+ffmpeg -loop 1 -i wait_for_stream.png -c:v h264_v4l2m2m -t 1 -pix_fmt yuv420p -f mpegts -codec:v mpeg1video -s 1000x500 -b:v 2000k -bf 0 -
+
+
+
+
 
 
 

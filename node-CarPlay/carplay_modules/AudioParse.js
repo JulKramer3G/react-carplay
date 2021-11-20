@@ -51,6 +51,7 @@ class AudioParse extends EventEmitter {
             "-c", "1",
             "-r", `16000`,
             "-",
+            "--no-show-progress"
         ])
         this._parser2.stderr.on('data', ((data) => {
             console.log(data.toString())
@@ -106,7 +107,14 @@ class AudioParse extends EventEmitter {
             } else {
                 let type = Buffer.concat(this._bytesRead)
                 console.log("Media type", type.readInt8(12));
-                // type = type.readInt8(12)
+                type = type.readInt8(12)
+                if (type == 6) {
+                    this._navi = true;
+                } else if (type == 2) {
+                    this._navi = false;
+                } else {
+
+                }
                 // if (type === 6) {
                 //     console.log("setting audio to nav")
                 //     this._navi = true
@@ -148,13 +156,19 @@ class AudioParse extends EventEmitter {
             //         this.emit('warning', 'Audio Stream Full')
             //     }
             // }
-            if (audioType === 1) { // 1: music, 2: navigation
+
+            // Audio type: 1: music, 2: navigation
+            if ((!this._navi) && audioType === 1) {
+                // music packets arrive here
                 if (this._parser.stdin.writable) {
-                    // console.log("writing audio stream: ", outputData)
                     this._parser.stdin.write(outputData);
-                    // if (record_audio == true) {
-                    //     this.wstream.write(outputData);
-                    // }
+                } else {
+                    this.emit('warning', 'Audio Stream Full')
+                }
+            } else if ((this._navi) && audioType === 2) {
+                // navi packets arrive here
+                if (this._parser.stdin.writable) {
+                    this._parser.stdin.write(outputData);
                 } else {
                     this.emit('warning', 'Audio Stream Full')
                 }
